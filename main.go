@@ -12,7 +12,7 @@ import (
   _ "github.com/go-sql-driver/mysql"
 )
 
-// Order represents a single order structure.
+
 type Order struct {
   ID           int       `json:"id"`
   CustomerName string    `json:"customer_name"`
@@ -47,7 +47,7 @@ func InitDB() {
 
 // CreateOrderHandler handles the creation of a single order.
 func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
-  // Parse the request body into an Order struct.
+  
   var order Order
   if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
     http.Error(w, "Invalid request payload", http.StatusBadRequest)
@@ -70,11 +70,11 @@ func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  // Retrieve the ID of the newly created order.
+  // Retrieve the ID
   id, _ := result.LastInsertId()
   order.ID = int(id)
 
-  // Respond with the created order details.
+  
   w.WriteHeader(http.StatusCreated)
   json.NewEncoder(w).Encode(order)
 }
@@ -87,7 +87,7 @@ func main() {
 
   r.HandleFunc("/create-order, CreateOrderHandler).Methods("POST")
 
-  // Start the server.
+
   log.Println("Server is running on port 8080...")
   if err := http.ListenAndServe(":8080", r); err != nil {
     log.Fatalf("Failed to start the server: %v", err)
